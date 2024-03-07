@@ -1,33 +1,43 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
+  
   const validateUser = () => {
+
     if (!userName) {
       setCustomError1(
         <p className="text-red-500 text-sm ">field can't empty</p>
       );
       return false;
     } else {
-      setCustomError1(<p></p>);
+      setCustomError1("");
       return true;
     }
   };
 
   const validatePass = () => {
-    if (!confirmPassword) {
-      setCustomError3(
-        <p className="text-red-500 text-sm ">Field Can't Empty</p>
-      );
-    }
-
+    
     if (!password) {
       setCustomError2(
         <p className="text-red-500 text-sm ">field can't empty</p>
       );
       return false;
     } else {
-      setCustomError2(true);
+      setCustomError2("");
+      return true;
     }
+
+  };
+
+  const validateConfirmPass = () =>{
+    if (!confirmPassword) {
+      setCustomError3(
+        <p className="text-red-500 text-sm ">Field Can't Empty</p>
+      );
+      return false;
+    }
+
 
     if (password !== confirmPassword) {
       setCustomError3(
@@ -35,18 +45,25 @@ const SignUp = () => {
       );
       return false;
     } else {
-      setCustomError3(true);
+      setCustomError3("");
       return true;
     }
-  };
+  }
 
   const submitForm = (e) => {
     e.preventDefault();
     validateUser();
     validatePass();
-    if (validatePass() && validateUser()) console.log("Submitted");
-    else console.log("Failed");
+    validateConfirmPass();
+    if (validateUser() && validatePass() && validateConfirmPass())
+    {
+      axios.post("http://localhost:2000/api/user",{
+        userName,password
+      }).then(()=> alert("Success") ).catch( ()=> alert("failed") )
+    }
   };
+
+
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");

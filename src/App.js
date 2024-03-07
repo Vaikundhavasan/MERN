@@ -1,7 +1,7 @@
 import React from "react";
 import SignUp from "./SignUp";
 
-const app = () => {
+const App = () => {
   return (
     <div>
       <SignUp />
@@ -9,4 +9,4 @@ const app = () => {
   );
 };
 
-export default app;
+export default App;
